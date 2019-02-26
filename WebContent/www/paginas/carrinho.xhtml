@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/www/template/principal_table.xhtml">
+    
+    <ui:define name="conteudo">
+    	<h:form id="formCarrinho">
+    		<rich:messages style="color: red" />
+    		<rich:panel header="Seu carrinho de compras">
+    			<h:panelGrid columns="2" rendered="#{empty carrinhoMB.itens}">
+    				<h:outputLabel value="Você não possui itens no carrinho" />
+    				<h:commandButton action="index" value="Voltar" />
+    			</h:panelGrid>
+	    		<h:panelGrid columns="2" rendered="#{carrinhoMB.itens.size() > 0}">
+	    			<rich:dataTable id="dtItens" value="#{carrinhoMB.itens}" binding="#{carrinhoMB.dataTable}" var="item" rowKeyVar="row">
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Item" /></f:facet>
+		    				<h:outputText value="#{row+1}" />
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Cód. Prod." /></f:facet>
+		    				<h:outputText value="#{item.produto.id}" />
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Produto" /></f:facet>
+		    				<h:outputText value="#{item.produto.descricao}" />
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Qtde" /></f:facet>
+		    				<rich:inputNumberSpinner valueChangeListener="#{carrinhoMB.alterarQtde}" value="#{item.qtde}" 
+		    					enableManualInput="false" minValue="1" maxValue="#{item.produto.qtdeEstoq}">
+		    					<a4j:ajax event="change" render="formCarrinho" />
+		    				</rich:inputNumberSpinner>
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Valor Un." /></f:facet>
+		    				<h:outputText value="#{item.produto.preco}" />
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="Total" /></f:facet>
+		    				<h:outputText value="#{item.total}" />
+		    			</rich:column>
+		    			<rich:column>
+		    				<f:facet name="header"><h:outputLabel value="#" /></f:facet>
+		    				<a4j:commandButton value="Remover" actionListener="#{carrinhoMB.removerItem}" render="formCarrinho"/>
+		    			</rich:column>
+		    		</rich:dataTable>
+		    		
+		    		<rich:panel header="Gostaria de finalizar a compra agora?">
+		    			Valor total da sua compra:
+		    			<h:outputText value=" #{carrinhoMB.total}">
+		    				<f:convertNumber type="currency" maxFractionDigits="2" minFractionDigits="2" />
+		    			</h:outputText>
+		    			<br />
+		    			<h:commandButton action="#{carrinhoMB.finalizarCompra}" value="Sim" />
+		    			<h:commandButton action="index" value="Não, continar comprando" />
+		    		</rich:panel>
+		    		
+	    		</h:panelGrid>
+	    	</rich:panel>
+    	</h:form>
+    </ui:define>
+</ui:composition>

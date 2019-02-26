@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/www/template/principal_table.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formCompra">
+			<rich:messages style="color: red" />
+			<rich:panel header="Finalização da compra...">
+				<h:panelGrid columns="2">
+					Total de itens da compra:
+					<h:outputText value="#{carrinhoMB.itens.size()}" />
+					
+					Valor total da compra: R$
+					<h:outputText value=" #{carrinhoMB.total}">
+						<f:convertNumber type="currency" maxFractionDigits="2" minFractionDigits="2" />
+					</h:outputText>
+					
+					Forma de pagamento:
+					<h:selectOneMenu value="#{carrinhoMB.formaPagto}">
+						<f:selectItems value="#{carrinhoMB.listaFormaPagto}" />
+					</h:selectOneMenu>
+					
+					<h:panelGroup>				
+						<h:commandButton action="#{carrinhoMB.concluir}" value="Concluir compra" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

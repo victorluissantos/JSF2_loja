@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/www/template/principal_table.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formItens">
+			<rich:messages style="color: red" />
+			<rich:panel header="CADASTRO DE PRODUTOS">
+
+				<h:panelGrid columns="2">
+					<h:outputText value="Descrição" />
+					<h:inputText value="#{produtoMB.prod.descricao}" />
+					
+					<h:outputText value="Grupo" />
+					<h:inputText value="#{produtoMB.prod.grupo}" />
+					
+					<h:outputText value="Preço" />
+					<h:inputText value="#{produtoMB.prod.preco}">
+						<f:validateDoubleRange />
+						<f:convertNumber type="currency" minFractionDigits="2" maxFractionDigits="2" pattern="##.##" />
+					</h:inputText>
+					
+					<h:outputText value="Qtde Estoque:" />
+					<h:inputText value="#{produtoMB.prod.qtdeEstoq}">
+						<f:validateDoubleRange />
+						<f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" />
+					</h:inputText>
+					
+					<h:commandButton action="#{produtoMB.cadastrar}" value="Cadastrar" />
+				</h:panelGrid>
+
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
